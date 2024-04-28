@@ -1,0 +1,12 @@
+.container {
+    border: 2px solid black;
+    height: 500px;
+}
+
+.rows {
+    border: 2px solid coral;
+}
+
+.columns {
+    border: 2px solid purple;
+}
