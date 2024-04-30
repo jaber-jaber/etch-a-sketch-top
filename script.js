@@ -1,30 +1,72 @@
-function generateMatrix(gridSize, rows, columns) {
+const createPixel = index => {
+    const pixel = document.createElement('div');
 
-    const integerGridSize = parseInt(gridSize)
-    // create the squares ("pixels") row by row and append each row to parent container
-    const rowSize = integerGridSize / 2
-    
-    for (let i = 0; i <= rowSize; i++) {
-        const row = document.createElement('div');
-        row.className = 'row-squares';
+    pixel.classList.add('pixel');
 
-        const column = document.createElement('div');
-        column.className = 'column-squares';
-
-        rows.appendChild(row);
-        columns.appendChild(column);
-    }
-
+    return pixel;
 }
 
-const gridSize = 32;
-const container = document.querySelector('.container');
-const rows = document.createElement('div');
-const columns = document.createElement('div');
+const createMatrix = qty => {
+    Array.from(Array(qty)).map((pixel, index) => {
+        container.appendChild(createPixel(index));
+    })
+}
 
-rows.className = 'rows';
-columns.className = 'columns';
+const generateColor = () => {
+    const max = 255;
+    let r = Math.floor(Math.random()*(max + 1));
+    let g = Math.floor(Math.random()*(max + 1));
+    let b = Math.floor(Math.random()*(max + 1));
 
-container.append(rows, columns);
+    let hr = r.toString(16).padStart(2, '0');
+    let hg = g.toString(16).padStart(2, '0');
+    let hb = b.toString(16).padStart(2, '0');
 
-generateMatrix(gridSize, rows, columns)
+    let color = "#" + hr + hg + hb;
+    return color;
+}
+
+// num of pixels = 16x16 = 256
+// container width = pixel size (width x height) * num of pixels
+// container height = pixel size (width x height) * num of pixels
+// pixel width and height has to change based on num of pixels
+// reference number = 100px wide and tall
+// 
+
+function setDimensions(newPixelSize) {
+    let columns = newPixelSize,
+    rows = newPixelSize;
+
+    return columns, rows;
+}
+
+const container = document.querySelector('.container')
+
+let columns = 16,
+    rows = 16;
+
+
+createMatrix(columns * rows);
+
+const matrix = document.querySelectorAll('.pixel');
+
+matrix.forEach((pxl) => {
+    pxl.addEventListener('mouseenter', () => {
+        pxl.style.backgroundColor = generateColor();
+    })
+});
+
+const reset = document.createElement('button');
+reset.classList.add = 'reset-button';
+reset.textContent = 'Reset the Grid';
+
+document.body.appendChild(reset);
+
+reset.addEventListener('click', () => {
+    let pixelNum = prompt('Enter number between 1-100');
+    // columns, rows = setDimensions(pixelNum);
+    // for (const pixel in matrix) {
+    //     pixel.style.cssText = `width: ${columns / }px; height: `;
+
+    // }
+})
