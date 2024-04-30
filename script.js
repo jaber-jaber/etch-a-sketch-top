@@ -6,7 +6,11 @@ const createPixel = index => {
     return pixel;
 }
 
-const createMatrix = qty => {
+const createMatrix = (qty) => {
+    while (container.firstChild) {
+        container.removeChild(container.lastChild);
+    }
+
     Array.from(Array(qty)).map((pixel, index) => {
         container.appendChild(createPixel(index));
     })
@@ -26,35 +30,26 @@ const generateColor = () => {
     return color;
 }
 
-// num of pixels = 16x16 = 256
-// container width = pixel size (width x height) * num of pixels
-// container height = pixel size (width x height) * num of pixels
-// pixel width and height has to change based on num of pixels
-// reference number = 100px wide and tall
-// 
-
 function setDimensions(newPixelSize) {
     let columns = newPixelSize,
-    rows = newPixelSize;
+        rows = newPixelSize;
 
-    return columns, rows;
+    let totalPixelSize = columns * rows;   
+
+    return [totalPixelSize, columns];
 }
 
-const container = document.querySelector('.container')
+function sketchPixel(matrix) {
 
-let columns = 16,
-    rows = 16;
+    matrix.forEach((pxl) => {
+        pxl.addEventListener('mouseenter', () => {
+            pxl.style.backgroundColor = generateColor();
+        })
+    });
 
+}
 
-createMatrix(columns * rows);
-
-const matrix = document.querySelectorAll('.pixel');
-
-matrix.forEach((pxl) => {
-    pxl.addEventListener('mouseenter', () => {
-        pxl.style.backgroundColor = generateColor();
-    })
-});
+const container = document.querySelector('.container');
 
 const reset = document.createElement('button');
 reset.classList.add = 'reset-button';
@@ -64,9 +59,26 @@ document.body.appendChild(reset);
 
 reset.addEventListener('click', () => {
     let pixelNum = prompt('Enter number between 1-100');
-    // columns, rows = setDimensions(pixelNum);
-    // for (const pixel in matrix) {
-    //     pixel.style.cssText = `width: ${columns / }px; height: `;
 
-    // }
+    columns = setDimensions(pixelNum)[1];
+    let totalPixelSize = setDimensions(pixelNum)[0];
+
+    createMatrix(totalPixelSize);
+    const matrixUpdated = document.querySelectorAll('.pixel');
+
+    matrixUpdated.forEach(pixel => {
+        pixel.style.cssText = `width: ${columns}px; height: ${columns}px;`
+    })
+
+    container.style.cssText = `width: calc(${columns} * 20px); height: calc(${columns} * 20px);`
+
+    sketchPixel(matrixUpdated);
 })
+
+
+
+createMatrix(16 * 16);
+
+const matrix = document.querySelectorAll('.pixel');
+
+sketchPixel(matrix);

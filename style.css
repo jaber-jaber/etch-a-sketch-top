@@ -9,16 +9,16 @@ body {
 .container {
     display: flex;
     flex-wrap: wrap;
-    height: calc(16 * 16px);
-    width: calc(16 * 16px);
+    height: calc(16 * 30px);
+    width: calc(16 * 30px);
     border: 1px solid black;
     flex-shrink: 0;
 }
 
 .pixel {
     box-sizing: border-box;
-    height: 16px;
-    width: 16px;
+    height: 30px;
+    width: 30px;
     border: 1px solid #ccc;
 }
 
